@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> MPB | Simulador</title>
+
+    <script src="./js/sessao.js"></script>
+
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+</head>
+
+<body>
+
+    <!--header inicio-->
+    <div class="header">
+        <div class="container">
+            <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
+            <ul class="navbar">
+                <li>
+                    <a href="./index.html">Inicial</a>
+                </li>
+                <li class="agora">Simulador</li>
+                <li>|</li>
+                <li>
+                    <a href="./login.html">Login</a>
+                </li>
+                <li>
+                    <a href="./login.html">Cadastro</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- simulador inicio -->
+    <div class="simulador">
+        <div class="container" style="flex-direction: column; gap: 32px; padding: 48px 0;">
+
+            <h2 style="color: var(--amarelo2); margin: 0;"> Me conte um pouco mais sobre você</h2>
+            <p style="color: var(--branco); margin: 0;">Por favor, responda as perguntas abaixo para eu entender melhor
+                sobre você.
+            </p>
+
+            <!-- Pergunta 1 -->
+            <div class="pergunta">
+                <p>1. Qual a sua faixa etária?</p>
+                <div class="opcoes">
+                    <label><input type="radio" name="idade" value="17"> Até 17 anos</label>
+                    <label><input type="radio" name="idade" value="18-24"> 18 – 24 anos</label>
+                    <label><input type="radio" name="idade" value="25-34"> 25 – 34 anos</label>
+                    <label><input type="radio" name="idade" value="35-44"> 35 – 44 anos</label>
+                    <label><input type="radio" name="idade" value="45+"> 45 anos ou mais</label>
+                </div>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="pergunta">
+                <p>2. Qual o seu gênero?</p>
+                <div class="opcoes">
+                    <label><input type="radio" name="genero" value="masculino"> Masculino</label>
+                    <label><input type="radio" name="genero" value="feminino"> Feminino</label>
+                    <label><input type="radio" name="genero" value="nao-binario"> Não-binário</label>
+                    <label><input type="radio" name="genero" value="prefiro-nao-dizer"> Prefiro não dizer</label>
+                </div>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="pergunta">
+                <p>3. Quantas horas por semana você ouve música?</p>
+                <div class="opcoes">
+                    <label><input type="radio" name="horas" value="ate5"> Menos de 5h</label>
+                    <label><input type="radio" name="horas" value="5-10"> 5 – 10h</label>
+                    <label><input type="radio" name="horas" value="10-20"> 10 – 20h</label>
+                    <label><input type="radio" name="horas" value="20+"> Mais de 20h</label>
+                </div>
+            </div>
+
+            <!-- Pergunta 4 -->
+            <div class="pergunta">
+                <p>4. Quanto dessas músicas são brasileiras?</p>
+                <div class="opcoes">
+                    <label><input type="radio" name="pct-br" value="0-25"> 0 – 25%</label>
+                    <label><input type="radio" name="pct-br" value="25-50"> 25 – 50%</label>
+                    <label><input type="radio" name="pct-br" value="50-75"> 50 – 75%</label>
+                    <label><input type="radio" name="pct-br" value="75-100"> 75 – 100%</label>
+                </div>
+            </div>
+
+            <button class="btn-simulador" onclick="enviarRespostas()">Enviar</button>
+
+        </div>
+    </div>
+    <!-- simulador fim -->
+    <!-- simulador fim -->
+
+    <!--footer inicio-->
+    <div class="footer">
+        <div class="container">
+            <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
+            <span class="version">v1.0.0</span>
+        </div>
+    </div>
+    <!--footer fim-->
+
+
+</body>
+
+</html>
