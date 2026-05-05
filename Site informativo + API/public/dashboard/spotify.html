@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPB | Álbuns</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="icon" href="../assets/icon/favicon2.ico">
+    <style>
+        .albuns-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .album-card {
+            background-color: var(--azul);
+            border-radius: 10px;
+            overflow: hidden;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: block;
+        }
+
+        .album-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .album-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+        }
+
+        .album-info {
+            padding: 16px;
+        }
+
+        .album-info h3 {
+            color: var(--amarelo2);
+            margin: 0 0 4px 0;
+            font-size: 1rem;
+        }
+
+        .album-info p {
+            color: var(--branco);
+            margin: 0 0 12px 0;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .btn-spotify {
+            display: inline-block;
+            background-color: #1DB954;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
+            <ul class="navbar">
+                <li><a href="../index.html">Inicial</a></li>
+                <li><a href="../simulador.html">Simulador</a></li>
+                <li>|</li>
+                <li class="agora">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="dash-wrapper">
+        <aside class="dash-sidebar">
+            <p class="saudacao">Bem-vindo,<span id="nome-usuario">visitante</span></p>
+            <a href="./dashboards.html" class="btn-nav">Início</a>
+            <a href="./graficos.html" class="btn-nav">Gráficos</a>
+            <a href="./usuarios.html" class="btn-nav">Usuários</a>
+            <a href="./spotify.html" class="btn-nav ativo">Álbuns</a>
+            <a href="./perfil.html" class="btn-nav">Meu Perfil</a>
+            <button class="btn-nav sair" onclick="sair()">Sair</button>
+        </aside>
+
+        <main class="dash-content">
+            <h2 class="dash-titulo">Repositório de Álbuns</h2>
+            <p class="dash-subtitulo">Discografia selecionada no Spotify</p>
+            <div class="albuns-grid">
+
+                <a class="album-card" href="https://open.spotify.com/album/2cGnBNmNDiS1EsOOPuoFoC" target="_blank">
+                    <img src="https://i.scdn.co/image/ab67616d0000b273a2e9b726ce6f33be64ea5e47"
+                        alt="Jorge Ben Jor - África Brasil">
+                    <div class="album-info">
+                        <h3>África Brasil</h3>
+                        <p>Jorge Ben Jor · 1976</p>
+                        <span class="btn-spotify">▶ Ouvir no Spotify</span>
+                    </div>
+                </a>
+
+                <a class="album-card" href="https://open.spotify.com/album/6yFPBfMfSVFuJjWDQRFMDV" target="_blank">
+                    <img src="https://i.scdn.co/image/ab67616d0000b273e319bfb4c67e7bf3a0f5f0a5"
+                        alt="Vinicius de Moraes - Para Viver um Grande Amor">
+                    <div class="album-info">
+                        <h3>Para Viver um Grande Amor</h3>
+                        <p>Vinícius de Moraes · 1962</p>
+                        <span class="btn-spotify">▶ Ouvir no Spotify</span>
+                    </div>
+                </a>
+
+                <a class="album-card" href="https://open.spotify.com/album/5Z9iiGl2FcIfa3BMiv6OIw" target="_blank">
+                    <img src="https://i.scdn.co/image/ab67616d0000b2737c66b2b3b6c2c1e7e6c3f3e4"
+                        alt="Jorge Ben Jor - Samba Esquema Novo">
+                    <div class="album-info">
+                        <h3>Samba Esquema Novo</h3>
+                        <p>Jorge Ben Jor · 1963</p>
+                        <span class="btn-spotify">▶ Ouvir no Spotify</span>
+                    </div>
+                </a>
+
+            </div>
+            <br>
+            <p style="color: var(--cinza); font-size: 0.8rem;">💡 Para adicionar álbuns, edite o arquivo <code
+                    style="color: var(--amarelo2)">spotify.html</code> e duplique um <code
+                    style="color: var(--amarelo2)">.album-card</code>.</p>
+        </main>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+        </div>
+    </div>
+
+    <script>
+        var usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
+        if (usuario && usuario.nome) document.getElementById("nome-usuario").textContent = usuario.nome;
+        function sair() { sessionStorage.removeItem("usuarioLogado"); window.location.href = "../login.html"; }
+    </script>
+</body>
+
+</html>

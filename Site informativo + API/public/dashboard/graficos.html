@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPB | Graficos</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="icon" href="../assets/icon/favicon2.ico">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .kpi {
+            background-color: var(--azul);
+            border-radius: 10px;
+            padding: 20px 16px;
+            text-align: center;
+            color: var(--branco);
+            border-left: 4px solid var(--amarelo2);
+        }
+
+        .kpi span {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--amarelo2);
+            display: block;
+        }
+
+        .kpi p {
+            margin: 6px 0 0 0;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .secao {
+            color: var(--amarelo2);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+            margin: 0 0 16px 0;
+        }
+
+        .graficos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .grafico-card {
+            background-color: var(--azul);
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .grafico-card h3 {
+            color: var(--amarelo2);
+            margin: 0 0 16px 0;
+            font-size: 0.95rem;
+        }
+
+        .grafico-card canvas {
+            max-height: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
+            <ul class="navbar">
+                <li><a href="../index.html">Inicial</a></li>
+                <li><a href="../simulador.html">Simulador</a></li>
+                <li>|</li>
+                <li class="agora">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="dash-wrapper">
+        <aside class="dash-sidebar">
+            <p class="saudacao">Bem-vindo,<span id="nome-usuario">visitante</span></p>
+            <a href="./dashboard.html" class="btn-nav">Inicio</a>
+            <a href="./graficos.html" class="btn-nav ativo">Graficos</a>
+            <a href="./usuarios.html" class="btn-nav">Usuarios</a>
+            <a href="./spotify.html" class="btn-nav">Albums</a>
+            <a href="./perfil.html" class="btn-nav">Meu Perfil</a>
+            <button class="btn-nav sair" onclick="sair()">Sair</button>
+        </aside>
+
+        <main class="dash-content">
+            <h2 class="dash-titulo">Graficos</h2>
+
+            <!-- KPIs -->
+            <div class="kpi-grid">
+                <div class="kpi"><span id="kpi-total">-</span>
+                    <p>Respostas totais</p>
+                </div>
+                <div class="kpi"><span id="kpi-genero">-</span>
+                    <p>Genero predominante</p>
+                </div>
+                <div class="kpi"><span id="kpi-pct">-</span>
+                    <p>% Brasil mais comum</p>
+                </div>
+                <div class="kpi"><span id="kpi-horas">-</span>
+                    <p>Horas mais ouvidas</p>
+                </div>
+            </div>
+
+            <!-- Gráficos por Idade -->
+            <p class="secao">Por faixa etaria</p>
+            <div class="graficos-grid">
+                <div class="grafico-card">
+                    <h3>Faixa etaria x % Musica Brasileira</h3>
+                    <canvas id="chart-idade-pct"></canvas>
+                </div>
+                <div class="grafico-card">
+                    <h3>Faixa etaria x Horas ouvidas</h3>
+                    <canvas id="chart-idade-horas"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráficos por Gênero -->
+            <p class="secao">Por genero</p>
+            <div class="graficos-grid">
+                <div class="grafico-card">
+                    <h3>Genero x % Musica Brasileira</h3>
+                    <canvas id="chart-genero-pct"></canvas>
+                </div>
+                <div class="grafico-card">
+                    <h3>Genero x Horas ouvidas</h3>
+                    <canvas id="chart-genero-horas"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+        </div>
+    </div>
+
+    <script>
+        var usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
+        if (usuario && usuario.nome) document.getElementById("nome-usuario").textContent = usuario.nome;
+
+        function sair() {
+            sessionStorage.removeItem("usuarioLogado");
+            window.location.href = "../login.html";
+        }
+
+        var CORES = ["#E9B80F", "#1565A8", "#1E5C38", "#D89F07", "#F8F4EC"];
+
+        var opcoesBase = {
+            responsive: true,
+            plugins: {
+                legend: { labels: { color: "#F8F4EC", font: { family: "Barlow, sans-serif" } } }
+            },
+            scales: {
+                x: { ticks: { color: "#F8F4EC" }, grid: { color: "#ffffff15" } },
+                y: { ticks: { color: "#F8F4EC" }, grid: { color: "#ffffff15" }, beginAtZero: true }
+            }
+        };
+
+        var LABELS_IDADE = ["17", "18-24", "25-34", "35-44", "45+"];
+        var LABELS_GENERO = ["masculino", "feminino", "nao-binario", "prefiro-nao-dizer"];
+        var LABELS_PCT = ["0-25", "25-50", "50-75", "75-100"];
+        var LABELS_HORAS = ["ate5", "5-10", "10-20", "20+"];
+
+        function somarGrupo(dados, groupKey, groupVal, filterKey, filterLabels) {
+            return filterLabels.map(function (filtro) {
+                return dados
+                    .filter(function (r) { return r[groupKey] === groupVal && r[filterKey] === filtro; })
+                    .reduce(function (a, r) { return a + Number(r.total); }, 0);
+            });
+        }
+
+        function buildDatasets(dados, groupKey, groupLabels, filterKey, filterLabels) {
+            return groupLabels.map(function (grupo, i) {
+                return {
+                    label: grupo,
+                    backgroundColor: CORES[i],
+                    data: somarGrupo(dados, groupKey, grupo, filterKey, filterLabels)
+                };
+            });
+        }
+
+        function somarTotaisPorCampo(dados, campo, labels) {
+            return labels.map(function (val) {
+                return dados.filter(function (r) { return r[campo] === val; })
+                    .reduce(function (a, r) { return a + Number(r.total); }, 0);
+            });
+        }
+
+        fetch("/respostas")
+            .then(function (r) { return r.json(); })
+            .then(function (dados) {
+
+                // KPIs
+                var total = dados.reduce(function (a, r) { return a + Number(r.total); }, 0);
+                document.getElementById("kpi-total").textContent = total;
+
+                var totaisGenero = somarTotaisPorCampo(dados, "genero", LABELS_GENERO);
+                document.getElementById("kpi-genero").textContent = LABELS_GENERO[totaisGenero.indexOf(Math.max.apply(null, totaisGenero))];
+
+                var totaisPct = somarTotaisPorCampo(dados, "pct_br", LABELS_PCT);
+                document.getElementById("kpi-pct").textContent = LABELS_PCT[totaisPct.indexOf(Math.max.apply(null, totaisPct))] + "%";
+
+                var totaisHoras = somarTotaisPorCampo(dados, "horas", LABELS_HORAS);
+                document.getElementById("kpi-horas").textContent = LABELS_HORAS[totaisHoras.indexOf(Math.max.apply(null, totaisHoras))] + "h";
+
+                // Gráfico 1: Faixa etária x % Brasil
+                new Chart(document.getElementById("chart-idade-pct"), {
+                    type: "bar",
+                    data: {
+                        labels: LABELS_PCT,
+                        datasets: buildDatasets(dados, "idade", LABELS_IDADE, "pct_br", LABELS_PCT)
+                    },
+                    options: opcoesBase
+                });
+
+                // Gráfico 2: Faixa etária x Horas
+                new Chart(document.getElementById("chart-idade-horas"), {
+                    type: "bar",
+                    data: {
+                        labels: LABELS_HORAS,
+                        datasets: buildDatasets(dados, "idade", LABELS_IDADE, "horas", LABELS_HORAS)
+                    },
+                    options: opcoesBase
+                });
+
+                // Gráfico 3: Gênero x % Brasil
+                new Chart(document.getElementById("chart-genero-pct"), {
+                    type: "bar",
+                    data: {
+                        labels: LABELS_PCT,
+                        datasets: buildDatasets(dados, "genero", LABELS_GENERO, "pct_br", LABELS_PCT)
+                    },
+                    options: opcoesBase
+                });
+
+                // Gráfico 4: Gênero x Horas
+                new Chart(document.getElementById("chart-genero-horas"), {
+                    type: "bar",
+                    data: {
+                        labels: LABELS_HORAS,
+                        datasets: buildDatasets(dados, "genero", LABELS_GENERO, "horas", LABELS_HORAS)
+                    },
+                    options: opcoesBase
+                });
+            });
+    </script>
+</body>
+
+</html>

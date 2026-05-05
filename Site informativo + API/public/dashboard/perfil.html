@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPB | Meu Perfil</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <link rel="icon" href="../assets/icon/favicon2.ico">
+    <style>
+        .perfil-card {
+            background-color: var(--azul);
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 520px;
+        }
+
+        .perfil-card h3 {
+            color: var(--amarelo2);
+            margin: 0 0 28px 0;
+            font-size: 1.2rem;
+        }
+
+        .campo-perfil {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .campo-perfil label {
+            color: var(--branco);
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .campo-perfil input,
+        .campo-perfil textarea {
+            background-color: var(--marinho);
+            border: 2px solid var(--azul2);
+            color: var(--branco);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .campo-perfil input:focus,
+        .campo-perfil textarea:focus {
+            outline: none;
+            border-color: var(--amarelo2);
+        }
+
+        .campo-perfil textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-salvar {
+            background-color: var(--amarelo2);
+            color: var(--texto);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-family: 'Barlow', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-salvar:hover {
+            background-color: var(--ouro);
+        }
+
+        .msg {
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
+            <ul class="navbar">
+                <li><a href="../index.html">Inicial</a></li>
+                <li><a href="../simulador.html">Simulador</a></li>
+                <li>|</li>
+                <li class="agora">Dashboard</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="dash-wrapper">
+        <aside class="dash-sidebar">
+            <p class="saudacao">Bem-vindo,<span id="nome-usuario">visitante</span></p>
+            <a href="./dashboard.html" class="btn-nav">Inicio</a>
+            <a href="./graficos.html" class="btn-nav">Graficos</a>
+            <a href="./usuarios.html" class="btn-nav">Usuarios</a>
+            <a href="./spotify.html" class="btn-nav">Albums</a>
+            <a href="./perfil.html" class="btn-nav ativo">Meu Perfil</a>
+            <button class="btn-nav sair" onclick="sair()">Sair</button>
+        </aside>
+
+        <main class="dash-content">
+            <h2 class="dash-titulo">Meu Perfil</h2>
+            <div class="perfil-card">
+                <h3>Editar informações</h3>
+                <div class="campo-perfil">
+                    <label>Nome</label>
+                    <input id="perfil-nome" type="text" placeholder="Seu nome">
+                </div>
+                <div class="campo-perfil">
+                    <label>Descrição</label>
+                    <textarea id="perfil-descricao" placeholder="Fale um pouco sobre você..."></textarea>
+                </div>
+                <button class="btn-salvar" onclick="salvar()">Salvar alterações</button>
+                <p class="msg" id="msg-perfil"></p>
+            </div>
+        </main>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+        </div>
+    </div>
+
+    <script>
+        var usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
+
+        if (!usuario) {
+            window.location.href = "../login.html";
+        } else {
+            document.getElementById("nome-usuario").textContent = usuario.nome;
+
+            fetch("/usuarios/" + usuario.id)
+                .then(function (r) { return r.json(); })
+                .then(function (dados) {
+                    document.getElementById("perfil-nome").value = dados.nome || "";
+                    document.getElementById("perfil-descricao").value = dados.descricao || "";
+                });
+        }
+
+        function sair() {
+            sessionStorage.removeItem("usuarioLogado");
+            window.location.href = "../login.html";
+        }
+
+        function salvar() {
+            var nome = document.getElementById("perfil-nome").value;
+            var descricao = document.getElementById("perfil-descricao").value;
+            var msg = document.getElementById("msg-perfil");
+
+            fetch("/usuarios", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: usuario.id, nome: nome, descricao: descricao })
+            })
+                .then(function (r) { return r.json(); })
+                .then(function () {
+                    usuario.nome = nome;
+                    sessionStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+                    document.getElementById("nome-usuario").textContent = nome;
+                    msg.style.color = "var(--amarelo2)";
+                    msg.textContent = "Perfil atualizado com sucesso!";
+                })
+                .catch(function () {
+                    msg.style.color = "#ED145B";
+                    msg.textContent = "Erro ao salvar. Tente novamente.";
+                });
+        }
+    </script>
+</body>
+
+</html>

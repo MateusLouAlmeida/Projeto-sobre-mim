@@ -4,24 +4,20 @@ function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
-
     if (email == undefined) {
         res.status(400).send("Seu email está indefinido!");
     } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinido!");
+        res.status(400).send("Sua senha está indefinida!");
     } else {
-
         usuarioModel.autenticar(email, senha)
-            .then(function (resultadoAutenticar) {
-
-                if (resultadoAutenticar.length == 1) {
+            .then(function (resultado) {
+                if (resultado.length == 1) {
                     res.json({
-                        id: resultadoAutenticar[0].id,
-                        email: resultadoAutenticar[0].email,
-                        nome: resultadoAutenticar[0].nome
+                        id: resultado[0].id,
+                        email: resultado[0].email,
+                        nome: resultado[0].nome
                     });
-
-                } else if (resultadoAutenticar.length == 0) {
+                } else if (resultado.length == 0) {
                     res.status(403).send("Email e/ou senha inválido(s)");
                 } else {
                     res.status(403).send("Usuário já existe!");
@@ -35,7 +31,6 @@ function autenticar(req, res) {
 }
 
 function cadastrar(req, res) {
-
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
@@ -46,11 +41,8 @@ function cadastrar(req, res) {
     } else if (email == undefined) {
         res.status(400).send("Seu email está indefinido");
     } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinido");
-    } else if (estilo == undefined) {
-        res.status(400).send("Seu estilo está indefinido");
+        res.status(400).send("Sua senha está indefinida");
     } else {
-
         usuarioModel.cadastrar(nome, email, senha, estilo)
             .then(function (resultado) {
                 res.json(resultado);
@@ -62,7 +54,48 @@ function cadastrar(req, res) {
     }
 }
 
+function listar(req, res) {
+    usuarioModel.listar()
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function buscarPorId(req, res) {
+    var id = req.params.id;
+    usuarioModel.buscarPorId(id)
+        .then(function (resultado) {
+            res.json(resultado[0]);
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
+function atualizar(req, res) {
+    var id = req.body.id;
+    var nome = req.body.nome;
+    var descricao = req.body.descricao;
+
+    usuarioModel.atualizar(id, nome, descricao)
+        .then(function () {
+            res.json({ mensagem: "Perfil atualizado!" });
+        })
+        .catch(function (erro) {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
+
 module.exports = {
     autenticar,
-    cadastrar
-}
+    cadastrar,
+    listar,
+    buscarPorId,
+    atualizar
+};

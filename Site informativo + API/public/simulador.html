@@ -76,7 +76,7 @@
                 <div class="opcoes">
                     <label><input type="radio" name="horas" value="ate5"> Menos de 5h</label>
                     <label><input type="radio" name="horas" value="5-10"> 5 – 10h</label>
-                    <label><input type="radio" name="horas" value="10-20"> 10 – 20h</label>
+                    <label><input type="radio" name="horas" value="10-20"> 11 – 20h</label>
                     <label><input type="radio" name="horas" value="20+"> Mais de 20h</label>
                 </div>
             </div>
@@ -86,17 +86,17 @@
                 <p>4. Quanto dessas músicas são brasileiras?</p>
                 <div class="opcoes">
                     <label><input type="radio" name="pct-br" value="0-25"> 0 – 25%</label>
-                    <label><input type="radio" name="pct-br" value="25-50"> 25 – 50%</label>
-                    <label><input type="radio" name="pct-br" value="50-75"> 50 – 75%</label>
-                    <label><input type="radio" name="pct-br" value="75-100"> 75 – 100%</label>
+                    <label><input type="radio" name="pct-br" value="25-50"> 26 – 50%</label>
+                    <label><input type="radio" name="pct-br" value="50-75"> 51 – 75%</label>
+                    <label><input type="radio" name="pct-br" value="75-100"> 76 – 100%</label>
                 </div>
             </div>
 
             <button class="btn-simulador" onclick="enviarRespostas()">Enviar</button>
+            <h3 style="color: var(--amarelo2); margin: 0;" id="div_enviar"></h3>
 
         </div>
     </div>
-    <!-- simulador fim -->
     <!-- simulador fim -->
 
     <!--footer inicio-->
@@ -108,6 +108,31 @@
     </div>
     <!--footer fim-->
 
+    <script>
+        function enviarRespostas() {
+            var p1 = document.querySelector('input[name="idade"]:checked')?.value;
+            var p2 = document.querySelector('input[name="genero"]:checked')?.value;
+            var p3 = document.querySelector('input[name="horas"]:checked')?.value;
+            var p4 = document.querySelector('input[name="pct-br"]:checked')?.value;
+
+            if (!p1 || !p2 || !p3 || !p4) {
+                div_enviar.innerHTML = "Por favor, responda todas as perguntas!";
+                return;
+            }
+
+            fetch("/respostas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idade: p1, genero: p2, horas: p3, pctBr: p4 })
+            })
+                .then(res => res.json())
+                .then(() => {
+                    div_enviar.innerHTML = "Resposta enviada, obrigado! Redirecionando...";
+                    setTimeout(() => window.location.href = "./resultados.html", 1500);
+                })
+                .catch(() => div_enviar.innerHTML = "Erro ao enviar, tente novamente.");
+        }
+    </script>
 
 </body>
 
