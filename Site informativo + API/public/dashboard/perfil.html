@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPB | Meu Perfil</title>
     <link rel="stylesheet" href="../css/estilo.css">
-    <link rel="icon" href="../assets/icon/favicon2.ico">
+    <link rel="icon" href="../assets/icon/vinil.png">
     <style>
         .perfil-card {
             background-color: var(--azul);
@@ -90,7 +90,7 @@
             <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
             <ul class="navbar">
                 <li><a href="../index.html">Inicial</a></li>
-                <li><a href="../simulador.html">Simulador</a></li>
+                <li><a href="../simulador.html">Questionário</a></li>
                 <li>|</li>
                 <li class="agora">Dashboard</li>
             </ul>
@@ -99,11 +99,11 @@
 
     <div class="dash-wrapper">
         <aside class="dash-sidebar">
-            <p class="saudacao">Bem-vindo,<span id="nome-usuario">visitante</span></p>
-            <a href="./dashboard.html" class="btn-nav">Inicio</a>
-            <a href="./graficos.html" class="btn-nav">Graficos</a>
-            <a href="./usuarios.html" class="btn-nav">Usuarios</a>
-            <a href="./spotify.html" class="btn-nav">Albums</a>
+            <p class="saudacao">Bem-vindo,<span id="nome_usuario"></span></p>
+            <a href="./dashboard.html" class="btn-nav">Início</a>
+            <a href="./graficos.html" class="btn-nav">Gráficos</a>
+            <a href="./usuarios.html" class="btn-nav">Usuários</a>
+            <a href="./spotify.html" class="btn-nav">Álbuns</a>
             <a href="./perfil.html" class="btn-nav ativo">Meu Perfil</a>
             <button class="btn-nav sair" onclick="sair()">Sair</button>
         </aside>
@@ -116,7 +116,7 @@
                     <label>Nome</label>
                     <input id="perfil-nome" type="text" placeholder="Seu nome">
                 </div>
-                <div class="campo-perfil">
+                <div class="campo-perfil">-
                     <label>Descrição</label>
                     <textarea id="perfil-descricao" placeholder="Fale um pouco sobre você..."></textarea>
                 </div>
@@ -128,25 +128,20 @@
 
     <div class="footer">
         <div class="container">
-            <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+            <h4>Feito por Mateus Lourenço de Almeida (um leigo que aprecia gênios); SPTech &copy; 2026</h4>
         </div>
     </div>
 
     <script>
-        var usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
 
-        if (!usuario) {
-            window.location.href = "../login.html";
-        } else {
-            document.getElementById("nome-usuario").textContent = usuario.nome;
+        nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-            fetch("/usuarios/" + usuario.id)
-                .then(function (r) { return r.json(); })
-                .then(function (dados) {
-                    document.getElementById("perfil-nome").value = dados.nome || "";
-                    document.getElementById("perfil-descricao").value = dados.descricao || "";
-                });
-        }
+        fetch("/usuarios/" + usuario.id)
+            .then(function (r) { return r.json(); })
+            .then(function (dados) {
+                document.getElementById("perfil-nome").value = dados.nome || "";
+                document.getElementById("perfil-descricao").value = dados.descricao || "";
+            });
 
         function sair() {
             sessionStorage.removeItem("usuarioLogado");
@@ -167,7 +162,7 @@
                 .then(function () {
                     usuario.nome = nome;
                     sessionStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-                    document.getElementById("nome-usuario").textContent = nome;
+                    document.getElementById("nome_usuario").textContent = nome;
                     msg.style.color = "var(--amarelo2)";
                     msg.textContent = "Perfil atualizado com sucesso!";
                 })

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPB | Usuários</title>
     <link rel="stylesheet" href="../css/estilo.css">
-    <link rel="icon" href="../assets/icon/favicon2.ico">
+    <link rel="icon" href="../assets/icon/vinil.png">
     <style>
         table {
             width: 100%;
@@ -46,6 +46,7 @@
             background-color: var(--verde2);
             color: var(--branco);
         }
+        
     </style>
 </head>
 
@@ -55,7 +56,7 @@
             <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
             <ul class="navbar">
                 <li><a href="../index.html">Inicial</a></li>
-                <li><a href="../simulador.html">Simulador</a></li>
+                <li><a href="../simulador.html">Questionário</a></li>
                 <li>|</li>
                 <li class="agora">Dashboard</li>
             </ul>
@@ -64,8 +65,8 @@
 
     <div class="dash-wrapper">
         <aside class="dash-sidebar">
-            <p class="saudacao">Bem-vindo,<span id="nome-usuario">visitante</span></p>
-            <a href="./dashboards.html" class="btn-nav">Início</a>
+            <p class="saudacao">Bem-vindo,<span id="nome_usuario"></span></p>
+            <a href="./dashboard.html" class="btn-nav">Início</a>
             <a href="./graficos.html" class="btn-nav">Gráficos</a>
             <a href="./usuarios.html" class="btn-nav ativo">Usuários</a>
             <a href="./spotify.html" class="btn-nav">Álbuns</a>
@@ -92,24 +93,27 @@
 
     <div class="footer">
         <div class="container">
-            <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+            <h4>Feito por Mateus Lourenço de Almeida (um leigo que aprecia gênios); SPTech &copy; 2026</h4>
         </div>
     </div>
 
     <script>
+
+        nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
         var usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
-        if (usuario && usuario.nome) document.getElementById("nome-usuario").textContent = usuario.nome;
+        if (usuario && usuario.nome) document.getElementById("nome_usuario").textContent = usuario.nome;
         function sair() { sessionStorage.removeItem("usuarioLogado"); window.location.href = "../login.html"; }
 
         fetch("/usuarios").then(function (r) { return r.json(); }).then(function (dados) {
-            document.getElementById("total-label").textContent = dados.length + " usuário(s) encontrado(s)";
+            document.getElementById("total-label").innerHTML = dados.length + " usuário(s) encontrado(s)";
             var tbody = document.getElementById("tabela-usuarios");
             dados.forEach(function (u) {
                 tbody.innerHTML += `<tr>
                     <td>${u.id}</td>
                     <td>${u.nome}</td>
                     <td>${u.email}</td>
-                    <td><span class="badge">${u.estilo || '-'}</span></td>
+                    <td><span class="badge">${u.estilo}</span></td>
                 </tr>`;
             });
         });

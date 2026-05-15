@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title> MPB | Simulador</title>
+    <title> MPB | Questionário </title>
 
     <script src="./js/sessao.js"></script>
 
     <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="icon" href="./assets/icon/favicon2.ico">
+    <link rel="icon" href="./assets/icon/vinil.png">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 </head>
 
@@ -25,13 +25,13 @@
                 <li>
                     <a href="./index.html">Inicial</a>
                 </li>
-                <li class="agora">Simulador</li>
+                <li class="agora">Questionário</li>
                 <li>|</li>
                 <li>
                     <a href="./login.html">Login</a>
                 </li>
                 <li>
-                    <a href="./login.html">Cadastro</a>
+                    <a href="./cadastro.html">Cadastro</a>
                 </li>
             </ul>
         </div>
@@ -102,7 +102,7 @@
     <!--footer inicio-->
     <div class="footer">
         <div class="container">
-            <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
+            <h4>Feito por Mateus Lourenço de Almeida (um leigo que aprecia gênios); SPTech &copy; 2026</h4>
             <span class="version">v1.0.0</span>
         </div>
     </div>
@@ -128,7 +128,7 @@
                 .then(res => res.json())
                 .then(() => {
                     div_enviar.innerHTML = "Resposta enviada, obrigado! Redirecionando...";
-                    setTimeout(() => window.location.href = "./resultados.html", 1500);
+                    setTimeout(() => window.location.href = "./index.html", 1500);
                 })
                 .catch(() => div_enviar.innerHTML = "Erro ao enviar, tente novamente.");
         }

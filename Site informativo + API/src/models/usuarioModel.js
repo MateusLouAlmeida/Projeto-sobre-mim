@@ -19,6 +19,9 @@ function listar() {
                 WHEN 3 THEN 'Rap'
                 WHEN 4 THEN 'MPB'
                 WHEN 5 THEN 'Pagode'
+                WHEN 6 THEN 'Forró'
+                WHEN 7 THEN 'Rock'
+                WHEN 8 THEN 'Funk'
             END AS estilo
         FROM usuario
     `;

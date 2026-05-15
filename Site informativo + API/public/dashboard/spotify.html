@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPB | Álbuns</title>
     <link rel="stylesheet" href="../css/estilo.css">
-    <link rel="icon" href="../assets/icon/favicon2.ico">
+    <link rel="icon" href="../assets/icon/vinil.png">
     <style>
         .albuns-grid {
             display: grid;
@@ -69,7 +69,7 @@
             <h1 class="titulo">Jorge Ben & Vinícius de Moraes</h1>
             <ul class="navbar">
                 <li><a href="../index.html">Inicial</a></li>
-                <li><a href="../simulador.html">Simulador</a></li>
+                <li><a href="../simulador.html">Questionário</a></li>
                 <li>|</li>
                 <li class="agora">Dashboard</li>
             </ul>
@@ -78,8 +78,8 @@
 
     <div class="dash-wrapper">
         <aside class="dash-sidebar">
-            <p class="saudacao">Bem-vindo,<span id="nome-usuario">visitante</span></p>
-            <a href="./dashboards.html" class="btn-nav">Início</a>
+            <p class="saudacao">Bem-vindo,<span id="nome_usuario"></span></p>
+            <a href="./dashboard.html" class="btn-nav">Início</a>
             <a href="./graficos.html" class="btn-nav">Gráficos</a>
             <a href="./usuarios.html" class="btn-nav">Usuários</a>
             <a href="./spotify.html" class="btn-nav ativo">Álbuns</a>
@@ -93,8 +93,7 @@
             <div class="albuns-grid">
 
                 <a class="album-card" href="https://open.spotify.com/album/2cGnBNmNDiS1EsOOPuoFoC" target="_blank">
-                    <img src="https://i.scdn.co/image/ab67616d0000b273a2e9b726ce6f33be64ea5e47"
-                        alt="Jorge Ben Jor - África Brasil">
+                    <img src="../assets/banner/africa brasil (1).jpg" alt="Jorge Ben Jor - África Brasil">
                     <div class="album-info">
                         <h3>África Brasil</h3>
                         <p>Jorge Ben Jor · 1976</p>
@@ -124,21 +123,21 @@
 
             </div>
             <br>
-            <p style="color: var(--cinza); font-size: 0.8rem;">💡 Para adicionar álbuns, edite o arquivo <code
-                    style="color: var(--amarelo2)">spotify.html</code> e duplique um <code
-                    style="color: var(--amarelo2)">.album-card</code>.</p>
         </main>
     </div>
 
     <div class="footer">
         <div class="container">
-            <h4>Feito com amor por aluno ♥ SPTech © 2023</h4>
+            <h4>Feito por Mateus Lourenço de Almeida (um leigo que aprecia gênios); SPTech &copy; 2026</h4>
         </div>
     </div>
 
     <script>
+
+        nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
         var usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
-        if (usuario && usuario.nome) document.getElementById("nome-usuario").textContent = usuario.nome;
+        if (usuario && usuario.nome) document.getElementById("nome_usuario").textContent = usuario.nome;
         function sair() { sessionStorage.removeItem("usuarioLogado"); window.location.href = "../login.html"; }
     </script>
 </body>
