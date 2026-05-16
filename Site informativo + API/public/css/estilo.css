@@ -5,7 +5,6 @@ body {
   padding: 0;
   font-family: 'Eczar', 'Work Sans', 'Suez One';
   background-color: var(--texto);
-
 }
 
 :root {
@@ -19,6 +18,7 @@ body {
   --branco: #F8F4EC;
   --amarelo2: #E9B80F;
   --ouro: #D89F07;
+  --amareloSombra: 5px 5px 1px #d4a702d6;
   --azul: #0A3F6E;
   --azul2: #3dc8ff;
   --marinho: #10293B;
@@ -110,7 +110,6 @@ body {
 
 .transition {
   background: color #808000;
-  background-image: url('../assets/copacabana_pattern.png');
 }
 
 .transition .container {
@@ -118,12 +117,19 @@ body {
   justify-content: center;
 }
 
-
 /* MISSÃO VISÃO VALORES */
 
 .social {
-  background-color: var(--azul2);
   display: flex;
+  background-image: url('../assets/imgs/copacabana_pattern.png');
+  height: 1000px;
+}
+
+.artist {
+  background-color: var(--amarelo2);
+  width: 200px;
+  transform: matrix(20);
+  box-shadow: var(--amareloSombra);
 }
 
 .social .container {
@@ -294,7 +300,7 @@ body {
   width: 230px;
   position: fixed;
   border-radius: 4px;
-  border: #ED145B 3px solid;
+  border: var(--amarelo2) 3px solid;
   padding: 10px;
   margin-right: 10%;
 }
